@@ -224,7 +224,14 @@
 
   .logo {
     color: var(--color-text-primary);
-    font-weight: var(--font-weight-extrabold);
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .logo img {
+    max-height: 100%;
+    width: auto;
   }
 
   .nav-links {
