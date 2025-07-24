@@ -117,23 +117,41 @@ document.addEventListener("DOMContentLoaded", () => {
     const carousel = document.querySelector('.carousel-container');
     if (!carousel) return;
 
-    const slides = document.querySelectorAll('.carousel-image');
-    const dots = document.querySelectorAll('.dot');
+    const slides = document.querySelectorAll('.carousel-image:not([style*="display: none"])'); // Only count visible slides
+    const dotsContainer = document.querySelector('.carousel-dots');
     const prevBtn = document.querySelector('.carousel-button.prev');
     const nextBtn = document.querySelector('.carousel-button.next');
     
+    // Clear existing dots and create new ones based on visible slides
+    if (dotsContainer) {
+      dotsContainer.innerHTML = ''; // Clear existing dots
+      
+      // Create dots based on number of visible slides
+      for (let i = 0; i < slides.length; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.dataset.slide = i;
+        dotsContainer.appendChild(dot);
+      }
+    }
+    
+    const dots = document.querySelectorAll('.dot');
     let currentSlide = 0;
     const totalSlides = slides.length;
 
     // Show current slide
     const showSlide = (index) => {
-      // Hide all slides
+      // Ensure index is within bounds
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+      
+      // Hide all slides and remove active class from dots
       slides.forEach(slide => slide.classList.remove('active'));
       dots.forEach(dot => dot.classList.remove('active'));
       
       // Show current slide and update dot
       slides[index].classList.add('active');
-      dots[index].classList.add('active');
+      if (dots[index]) dots[index].classList.add('active');
       currentSlide = index;
     };
 
@@ -161,14 +179,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Dot navigation
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        showSlide(index);
+    if (dotsContainer) {
+      dotsContainer.addEventListener('click', (e) => {
+        const dot = e.target.closest('.dot');
+        if (!dot) return;
+        
+        const index = parseInt(dot.dataset.slide, 10);
+        if (!isNaN(index)) {
+          showSlide(index);
+        }
       });
-    });
+    }
 
     // Initialize
     showSlide(0);
+    
+    // Auto-advance slides every 5 seconds
+    let slideInterval = setInterval(nextSlide, 5000);
+    
+    // Pause auto-advance on hover
+    carousel.addEventListener('mouseenter', () => clearInterval(slideInterval));
+    carousel.addEventListener('mouseleave', () => {
+      clearInterval(slideInterval);
+      slideInterval = setInterval(nextSlide, 5000);
+    });
   };
 
   // Initialize carousel
