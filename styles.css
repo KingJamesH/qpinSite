@@ -382,10 +382,47 @@
   }
 
   .hero-visual {
+    flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
     position: relative;
+  }
+  
+  /* Mobile-first GIF */
+  .mobile-first {
+    display: none;
+  }
+  
+  /* Desktop-only GIF */
+  .desktop-only {
+    display: flex;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-container {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .hero-content {
+      order: 2;
+      width: 100%;
+    }
+    
+    .mobile-first {
+      display: flex;
+      order: 1;
+      margin-bottom: var(--spacing-lg);
+      width: 100%;
+    }
+    
+    .desktop-only {
+      display: none;
+    }
+    
+    .hero-stats {
+      justify-content: center;
+    }
   }
 
   .model-container {
