@@ -1,5 +1,33 @@
 // Main JavaScript for QPin Website
 document.addEventListener("DOMContentLoaded", () => {
+  // Navbar scroll behavior
+  let lastScroll = 0;
+  const navbar = document.querySelector('.navbar');
+  
+  if (navbar) {
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll <= 0) {
+        // At top of page, show navbar
+        navbar.classList.remove('scroll-up');
+        return;
+      }
+      
+      if (currentScroll > lastScroll && !navbar.classList.contains('scroll-down')) {
+        // Scrolling down, hide navbar
+        navbar.classList.remove('scroll-up');
+        navbar.classList.add('scroll-down');
+      } else if (currentScroll < lastScroll && navbar.classList.contains('scroll-down')) {
+        // Scrolling up, show navbar
+        navbar.classList.remove('scroll-down');
+        navbar.classList.add('scroll-up');
+      }
+      
+      lastScroll = currentScroll;
+    });
+  }
+  
   // Initialize carousel
   const initCarousel = () => {
     const carousel = document.querySelector('.carousel-container');
