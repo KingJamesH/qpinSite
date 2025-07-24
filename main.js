@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const faqQuestions = document.querySelectorAll(".faq-question")
 
   faqQuestions.forEach((question) => {
-    question.addEventListener("click", function () {
-      const faqItem = this.parentNode
+    question.addEventListener("click", () => {
+      const faqItem = question.closest('.faq-item')
       const isActive = faqItem.classList.contains("active")
 
       // Close all FAQ items
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         item.classList.remove("active")
       })
 
-      // Open clicked item if it wasn't active
+      // Toggle current item if it wasn't active
       if (!isActive) {
         faqItem.classList.add("active")
       }
