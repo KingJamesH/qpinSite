@@ -796,6 +796,7 @@
   .faq-item.active .faq-answer {
     padding: 0 var(--spacing-xl) var(--spacing-xl);
     max-height: 200px;
+    margin-bottom: 20px;
   }
 
   /* Footer */
