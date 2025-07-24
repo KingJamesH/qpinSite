@@ -686,6 +686,13 @@
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
   }
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* border-radius: 50%; */
+    position: relative;
+  }
 
   .price-note {
     color: var(--color-text-muted);
