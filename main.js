@@ -1,5 +1,89 @@
 // Main JavaScript for QPin Website
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize Testimonial Carousel
+  const initTestimonialCarousel = () => {
+    const track = document.querySelector('.testimonial-track');
+    const slides = document.querySelectorAll('.testimonial-slide');
+    const dots = document.querySelectorAll('.testimonial-dots .dot');
+    const prevBtn = document.querySelector('.testimonial-arrow.prev');
+    const nextBtn = document.querySelector('.testimonial-arrow.next');
+    let currentSlide = 0;
+    let slideInterval;
+    const slideDuration = 10000; // 10 seconds
+
+    // Show current slide
+    const showSlide = (index) => {
+      // Hide all slides
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+      
+      // Show current slide and update dot
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+      currentSlide = index;
+    };
+
+    // Next slide
+    const nextSlide = () => {
+      const nextIndex = (currentSlide + 1) % slides.length;
+      showSlide(nextIndex);
+    };
+
+    // Previous slide
+    const prevSlide = () => {
+      const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(prevIndex);
+    };
+
+    // Start auto-rotation
+    const startAutoRotate = () => {
+      slideInterval = setInterval(nextSlide, slideDuration);
+    };
+
+    // Stop auto-rotation
+    const stopAutoRotate = () => {
+      clearInterval(slideInterval);
+    };
+
+    // Event Listeners
+    if (nextBtn && prevBtn) {
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        stopAutoRotate();
+        startAutoRotate();
+      });
+
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        stopAutoRotate();
+        startAutoRotate();
+      });
+    }
+
+    // Dot navigation
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        showSlide(index);
+        stopAutoRotate();
+        startAutoRotate();
+      });
+    });
+
+    // Pause auto-rotation on hover
+    if (track) {
+      track.addEventListener('mouseenter', stopAutoRotate);
+      track.addEventListener('mouseleave', startAutoRotate);
+    }
+
+    // Initialize
+    showSlide(0);
+    startAutoRotate();
+  };
+
+  // Initialize the carousel if it exists on the page
+  if (document.querySelector('.testimonial-carousel')) {
+    initTestimonialCarousel();
+  }
   // Navbar scroll behavior
   let lastScroll = 0;
   const navbar = document.querySelector('.navbar');
