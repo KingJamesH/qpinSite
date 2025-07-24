@@ -1,5 +1,66 @@
 // Main JavaScript for QPin Website
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize carousel
+  const initCarousel = () => {
+    const carousel = document.querySelector('.carousel-container');
+    if (!carousel) return;
+
+    const slides = document.querySelectorAll('.carousel-image');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.carousel-button.prev');
+    const nextBtn = document.querySelector('.carousel-button.next');
+    
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    // Show current slide
+    const showSlide = (index) => {
+      // Hide all slides
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+      
+      // Show current slide and update dot
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+      currentSlide = index;
+    };
+
+    // Next slide
+    const nextSlide = () => {
+      showSlide((currentSlide + 1) % totalSlides);
+    };
+
+    // Previous slide
+    const prevSlide = () => {
+      showSlide((currentSlide - 1 + totalSlides) % totalSlides);
+    };
+
+    // Navigation buttons
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        prevSlide();
+      });
+
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        nextSlide();
+      });
+    }
+
+    // Dot navigation
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        showSlide(index);
+      });
+    });
+
+    // Initialize
+    showSlide(0);
+  };
+
+  // Initialize carousel
+  initCarousel();
   // Mobile menu toggle
   const menuToggle = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
