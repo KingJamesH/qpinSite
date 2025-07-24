@@ -928,4 +928,8 @@
       width: 180px;
       height: 180px;
     }
+
+    .product-showcase {
+      padding: var(--spacing-xs);
+    }
   }
