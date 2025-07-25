@@ -1,5 +1,156 @@
 // Main JavaScript for QPin Website
+// Initialize 3D Model Viewer
+const initModelViewer = () => {
+  const container = document.getElementById('model-container');
+  const loading = document.getElementById('loading');
+  
+  if (!container) return;
+  
+  // Create scene
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x111111);
+  
+  // Create camera
+  const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+  camera.position.z = 5;
+  
+  // Create renderer
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+  
+  // Add lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(ambientLight);
+  
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  directionalLight.position.set(1, 1, 1);
+  scene.add(directionalLight);
+  
+  // Add orbit controls with smooth horizontal rotation
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  
+  // Basic settings
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.1;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 1.5;
+  controls.enableZoom = true;
+  controls.enablePan = false;
+  
+  // Camera distance constraints
+  controls.minDistance = 2;
+  controls.maxDistance = 8;
+  
+  // Rotation settings
+  controls.rotateSpeed = 1.0;
+  controls.screenSpacePanning = true; // Better for horizontal dragging
+  
+  // Remove all rotation constraints
+  controls.minPolarAngle = 0; // Allow looking from top
+  controls.maxPolarAngle = Math.PI; // Allow looking from bottom
+  controls.minAzimuthAngle = -Infinity; // No limit on horizontal rotation
+  controls.maxAzimuthAngle = Infinity; // No limit on horizontal rotation
+  
+  // Make the target point at the center of the model
+  controls.target.set(0, 0, 0);
+  
+  // Disable vertical rotation with right-click if needed
+  // controls.mouseButtons = {
+  //   LEFT: THREE.MOUSE.ROTATE,
+  //   MIDDLE: THREE.MOUSE.DOLLY,
+  //   RIGHT: THREE.MOUSE.PAN
+  // };
+  
+  // Load 3D model
+  const mtlLoader = new THREE.MTLLoader();
+  mtlLoader.setPath('images/');
+  
+  mtlLoader.load('centeredPin.mtl', (materials) => {
+    materials.preload();
+    
+    const objLoader = new THREE.OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.setPath('images/');
+    
+    objLoader.load('centeredPin.obj', (object) => {
+      // Center the model
+      const box = new THREE.Box3().setFromObject(object);
+      const center = box.getCenter(new THREE.Vector3());
+      object.position.x = -center.x;
+      object.position.y = -center.y;
+      object.position.z = -center.z;
+      
+      // Scale the model to a reasonable size
+      const size = box.getSize(new THREE.Vector3()).length();
+      const scale = 3.0 / size;
+      object.scale.set(scale, scale, scale);
+      
+      // Set initial rotation (in radians)
+      // Rotation order: X, Y, Z
+      object.rotation.x = 180;  // Tilt up/down (0 = level)
+      object.rotation.y = 0;  // Rotate left/right (0 = front view)
+      object.rotation.z = 0;  // Tilt left/right (0 = level)
+      
+      // Add the object to the scene
+      scene.add(object);
+      
+      // Update camera position based on the initial rotation
+      camera.position.set(0, 0, 5);  // Adjust these values to change the starting view
+      camera.lookAt(0, 0, 0);
+      
+      // Update controls target and position
+      controls.target.set(0, 0, 0);
+      controls.update();
+      
+      // Hide loading text
+      if (loading) {
+        loading.style.display = 'none';
+      }
+      
+      // Log current rotation for debugging
+      console.log('Initial rotation:', {
+        x: THREE.MathUtils.radToDeg(object.rotation.x).toFixed(1) + '°',
+        y: THREE.MathUtils.radToDeg(object.rotation.y).toFixed(1) + '°',
+        z: THREE.MathUtils.radToDeg(object.rotation.z).toFixed(1) + '°'
+      });
+      
+      // Start animation loop
+      const animate = () => {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      };
+      
+      animate();
+      
+      // Handle window resize
+      const onWindowResize = () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      };
+      
+      window.addEventListener('resize', onWindowResize);
+      
+    }, undefined, (error) => {
+      console.error('An error occurred loading the 3D model:', error);
+      if (loading) {
+        loading.textContent = 'Error loading 3D model';
+      }
+    });
+  }, undefined, (error) => {
+    console.error('An error occurred loading materials:', error);
+    if (loading) {
+      loading.textContent = 'Error loading materials';
+    }
+  });
+};
+
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize 3D model viewer
+  initModelViewer();
   // Initialize Testimonial Carousel
   const initTestimonialCarousel = () => {
     const track = document.querySelector('.testimonial-track');

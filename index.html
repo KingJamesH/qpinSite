@@ -43,7 +43,68 @@
               </div>
           </div>
           <div class="hero-content">
-              <h1>Wear Your Story.<br><span class="gradient-text">Change It Anytime.</span></h1>
+              <h1>Wear Your <span id="typewriter">Story</span>.<br><span class="gradient-text">Change It Anytime.</span></h1>
+              <style>
+                #typewriter {
+                  display: inline-block;
+                  position: relative;
+                  text-decoration: underline;
+                  text-decoration-color: var(--color-yellow);
+                  text-decoration-thickness: 6px;
+                  text-underline-offset: 6px;
+                }
+                /* #typewriter::after {
+                  content: '|';
+                  position: absolute;
+                  right: -8px;
+                  animation: blink 0.7s infinite;
+                } */
+                @keyframes blink {
+                  0%, 100% { opacity: 1; }
+                  50% { opacity: 0; }
+                }
+              </style>
+              <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                  const words = ['Story', 'Mood', 'Truth'];
+                  const element = document.getElementById('typewriter');
+                  let wordIndex = 0;
+                  let charIndex = 0;
+                  let isDeleting = false;
+                  let typeSpeed = 100; // Typing speed in ms
+                  
+                  function type() {
+                    const currentWord = words[wordIndex % words.length];
+                    
+                    if (isDeleting) {
+                      // Delete characters
+                      element.textContent = currentWord.substring(0, charIndex - 1);
+                      charIndex--;
+                      typeSpeed = 50; // Faster when deleting
+                    } else {
+                      // Type characters
+                      element.textContent = currentWord.substring(0, charIndex + 1);
+                      charIndex++;
+                      typeSpeed = 100; // Normal typing speed
+                    }
+                    
+                    // Check if word is complete
+                    if (!isDeleting && charIndex === currentWord.length) {
+                      typeSpeed = 2000; // Pause at end of word
+                      isDeleting = true;
+                    } else if (isDeleting && charIndex === 0) {
+                      isDeleting = false;
+                      wordIndex++;
+                      typeSpeed = 500; // Pause before typing next word
+                    }
+                    
+                    setTimeout(type, typeSpeed);
+                  }
+                  
+                  // Start the typewriter effect
+                  setTimeout(type, 1000); // Initial delay before starting
+                });
+              </script>
               <p>Display any GIF or image onto your pin from your phone. Show off your interests anytime, anywhere.</p>
               <div class="hero-actions">
                   <a href="https://buy.stripe.com/14A28tfhM3hEe2y5j25ZC01" target="blank" class="cta-primary">Pre-order QPin</a>
@@ -87,48 +148,48 @@
                 <!-- Testimonial 2 -->
                 <div class="testimonial-slide">
                     <div class="testimonial-image">
-                        <img src="images/avatar2.jpg" alt="Arnav">
+                        <img src="images/avatar2.jpg" alt="1">
                     </div>
                     <div class="testimonial-content">
                         <div class="testimonial-quote">
-                            <span class="quote-mark">"</span>
-                            <p>QPin saved my life! Thats it.</p>
+                            <!-- <span class="quote-mark">"</span> -->
+                            <p>I used to be a pretty shy person, so I was never really able to connect with people. When I got a QPin, everything changed. I put it on my hat and all of a sudden, people were coming up to me to strike up conversation. QPin has literally changed my life.</p>
                         </div>
                         <div class="testimonial-author">
-                            <h4>Arnav</h4>
-                            <p>Early Backer</p>
+                            <h4>Christian B. (HS '28)</h4>
+                            <p>Early User</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="testimonial-slide active">
                   <div class="testimonial-image">
-                      <img src="images/avatar1.jpg" alt="John Eapen">
+                      <img src="images/avatar1.jpg" alt="2">
                   </div>
                   <div class="testimonial-content">
                       <div class="testimonial-quote">
-                          <span class="quote-mark">"</span>
-                          <p>It's beautiful. </p>
+                          <!-- <span class="quote-mark">"</span> -->
+                          <p>My QPin has made me a much more outgoing person. With my QPin, I can express myself in a way that I never could before. And it looks great on my backpack!</p>
                       </div>
                       <div class="testimonial-author">
-                          <h4>John Eapen</h4>
+                          <h4>Jonathan M. (HS '26)</h4>
                           <p>Early User</p>
                       </div>
-                  </div>
+                  </div>    
               </div>
                 
                 <!-- Testimonial 3 -->
                 <div class="testimonial-slide">
                     <div class="testimonial-image">
-                        <img src="images/avatar3.jpg" alt="Gavin Hanson">
+                        <img src="images/avatar3.jpg" alt="3">
                     </div>
                     <div class="testimonial-content">
                         <div class="testimonial-quote">
-                            <span class="quote-mark">"</span>
-                            <p>When I was looking for a way to express myself, I stumbled upon QPin. It was exactly what I was looking for. Amazing screen quality and way cheaper than its competitors.</p>
+                            <!-- <span class="quote-mark">"</span> -->
+                            <p>I've been really into fashion for a while now, and I've always been a fan of accessories. QPin is the only accessory I've found that allows me to express myself in my own style. </p>
                         </div>
                         <div class="testimonial-author">
-                            <h4>Gavin Hanson</h4>
+                            <h4>Sarah L. (U. '28)</h4>
                             <p>Early User</p>
                         </div>
                     </div>
@@ -205,8 +266,8 @@
               <div class="about-text">
                   <!-- <div class="section-label">The Story</div> -->
                   <h2>Self-expression hasn't caught up to the digital world</h2>
-                  <p>Online, we use GIFs, memes, and status updates to show how we feel. But in person? You're stuck with a static outfit or pin that says the same thing forever.</p>
-                  <p>QPin changes that. Whether it's your favorite meme, a political message, or just your mood, QPin makes your outfit speak for you in real time.</p>
+                  <p>Online, we use GIFs, memes, and status updates to show how we feel. But in person? We're stuck with outfits and accessories that never change.</p>
+                  <p>QPin changes that. It's a <b style="color: var(--color-yellow)">fashion-tech accessory you can attach to anything</b> — your shirt, hat, or even your belt — and it lets you express yourself in real time. Whether it's your favorite meme, a bold opinion, or just your current mood, QPin makes your outfit speak for you.</p>
               </div>
               <div class="about-carousel">
                   <div class="carousel-container">
@@ -229,15 +290,22 @@
   </section>
 
 
+  <!-- Three.js Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
   <!-- Buy Section -->
   <section id="buy" class="buy-section">
       <div class="section-container">
         <!-- <div class="section-label">Buy Now</div> -->
           <div class="buy-content">
               <div class="product-showcase">
-                  <!-- <div class="product-image"> -->
-                    <img src="images/qpinPic3.png" alt="QPin picture" class = "product-image">
-                  <!-- </div> -->
+                  <div id="model-container" class="model-container">
+                      <!-- 3D model will be rendered here -->
+                      <div id="loading">Loading 3D model...</div>
+                  </div>
               </div>
               <div class="product-details">
                   <div class="product-header">
@@ -328,6 +396,9 @@
                       <h4>Support</h4>
                       <a href="#faq">FAQ</a>
                       <a href="mailto:wearqpin@gmail.com">Contact</a>
+                      <a href="https://www.iubenda.com/privacy-policy/73347456" class="iubenda-embed" title="Privacy Policy ">Privacy Policy</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+                      <a href="https://www.iubenda.com/privacy-policy/73347456/cookie-policy" class="iubenda-embed" title="Cookie Policy ">Cookie Policy</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+                      <a href="https://www.iubenda.com/terms-and-conditions/73347456" class="iubenda-embed" title="Terms and Conditions ">Terms and Conditions</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
                   </div>
                   <div class="footer-column">
                       <h4>Connect</h4>
