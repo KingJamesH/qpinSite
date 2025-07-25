@@ -8,7 +8,7 @@ const initModelViewer = () => {
   
   // Create scene
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x424242);
+  scene.background = new THREE.Color(0x171717);
   
   // Create camera
   const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
