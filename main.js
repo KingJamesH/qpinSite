@@ -8,7 +8,7 @@ const initModelViewer = () => {
   
   // Create scene
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x111111);
+  scene.background = new THREE.Color(0x424242);
   
   // Create camera
   const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -21,7 +21,7 @@ const initModelViewer = () => {
   container.appendChild(renderer.domElement);
   
   // Add lights
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
   scene.add(ambientLight);
   
   const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -148,10 +148,49 @@ const initModelViewer = () => {
   });
 };
 
+// Contact Popup Functionality
+function initContactPopup() {
+  const contactLink = document.getElementById('contactLink');
+  const contactPopup = document.getElementById('contactPopup');
+  const closePopup = document.querySelector('.close-popup');
+
+  if (!contactLink || !contactPopup) return;
+
+  // Open popup when clicking contact link
+  contactLink.addEventListener('click', function(e) {
+    e.preventDefault();
+    contactPopup.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when popup is open
+  });
+
+  // Close popup when clicking close button
+  closePopup.addEventListener('click', function() {
+    contactPopup.classList.remove('active');
+    document.body.style.overflow = ''; // Re-enable scrolling
+  });
+
+  // Close popup when clicking outside the content
+  contactPopup.addEventListener('click', function(e) {
+    if (e.target === contactPopup) {
+      contactPopup.classList.remove('active');
+      document.body.style.overflow = ''; // Re-enable scrolling
+    }
+  });
+
+  // Close popup when pressing Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && contactPopup.classList.contains('active')) {
+      contactPopup.classList.remove('active');
+      document.body.style.overflow = ''; // Re-enable scrolling
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize 3D model viewer
   initModelViewer();
-  // Initialize Testimonial Carousel
+  
+  // Initialize carousels
   const initTestimonialCarousel = () => {
     const track = document.querySelector('.testimonial-track');
     const slides = document.querySelectorAll('.testimonial-slide');
@@ -347,6 +386,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (document.querySelector('.about-carousel')) {
     initAboutCarousel();
   }
+  
+  // Initialize contact popup
+  initContactPopup();
   
   // Old carousel initialization function removed - using initAboutCarousel instead
   // Mobile menu toggle

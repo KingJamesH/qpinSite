@@ -309,7 +309,7 @@
   }
 
   .hero-content {
-    max-width: 600px;
+    max-width: 650px;
   }
 
   .hero-badge {
@@ -746,7 +746,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: var(--color-surface);
+    background: var(--color-background);
     border: none;
     width: 40px;
     height: 40px;
@@ -988,7 +988,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.9);
+    background: var(--color-background);
     border: none;
     border-radius: 50%;
     width: 44px;
@@ -1083,7 +1083,78 @@
     }
   }
   
-  /* About Carousel - Using updated styles from above */
+  /* Contact Popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.popup-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-content {
+  background: var(--color-background);
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.popup-overlay.active .popup-content {
+  transform: translateY(0);
+}
+
+.close-popup {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: color 0.2s ease;
+}
+
+.close-popup:hover {
+  color: var(--color-yellow);
+}
+
+.popup-content h3 {
+  margin-top: 0;
+  color: var(--color-text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.email-link {
+  color: var(--color-yellow);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.email-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* About Carousel - Using updated styles from above */
   
   @media (max-width: 992px) {
     .about-content {
