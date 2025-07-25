@@ -263,101 +263,92 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   
-  // Initialize carousel
-  const initCarousel = () => {
-    const carousel = document.querySelector('.carousel-container');
-    if (!carousel) return;
-
-    const slides = document.querySelectorAll('.carousel-image:not([style*="display: none"])'); // Only count visible slides
-    const dotsContainer = document.querySelector('.carousel-dots');
-    const prevBtn = document.querySelector('.carousel-button.prev');
-    const nextBtn = document.querySelector('.carousel-button.next');
-    
-    // Clear existing dots and create new ones based on visible slides
-    if (dotsContainer) {
-      dotsContainer.innerHTML = ''; // Clear existing dots
-      
-      // Create dots based on number of visible slides
-      for (let i = 0; i < slides.length; i++) {
-        const dot = document.createElement('span');
-        dot.className = 'dot' + (i === 0 ? ' active' : '');
-        dot.dataset.slide = i;
-        dotsContainer.appendChild(dot);
-      }
-    }
-    
-    const dots = document.querySelectorAll('.dot');
+  // Initialize About Carousel (using same logic as testimonial carousel)
+  const initAboutCarousel = () => {
+    const track = document.querySelector('.carousel-track');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dots .dot');
+    const prevBtn = document.querySelector('.carousel-arrow.prev');
+    const nextBtn = document.querySelector('.carousel-arrow.next');
     let currentSlide = 0;
-    const totalSlides = slides.length;
+    let slideInterval;
+    const slideDuration = 5000; // 5 seconds
 
     // Show current slide
     const showSlide = (index) => {
-      // Ensure index is within bounds
-      if (index < 0) index = totalSlides - 1;
-      if (index >= totalSlides) index = 0;
-      
-      // Hide all slides and remove active class from dots
+      // Hide all slides
       slides.forEach(slide => slide.classList.remove('active'));
       dots.forEach(dot => dot.classList.remove('active'));
       
       // Show current slide and update dot
-      slides[index].classList.add('active');
+      if (slides[index]) slides[index].classList.add('active');
       if (dots[index]) dots[index].classList.add('active');
       currentSlide = index;
     };
 
     // Next slide
     const nextSlide = () => {
-      showSlide((currentSlide + 1) % totalSlides);
+      const nextIndex = (currentSlide + 1) % slides.length;
+      showSlide(nextIndex);
     };
 
     // Previous slide
     const prevSlide = () => {
-      showSlide((currentSlide - 1 + totalSlides) % totalSlides);
+      const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(prevIndex);
     };
 
-    // Navigation buttons
-    if (prevBtn && nextBtn) {
-      prevBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        prevSlide();
+    // Start auto-rotation
+    const startAutoRotate = () => {
+      slideInterval = setInterval(nextSlide, slideDuration);
+    };
+
+    // Stop auto-rotation
+    const stopAutoRotate = () => {
+      clearInterval(slideInterval);
+    };
+
+    // Event Listeners
+    if (nextBtn && prevBtn) {
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        stopAutoRotate();
+        startAutoRotate();
       });
 
-      nextBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        nextSlide();
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        stopAutoRotate();
+        startAutoRotate();
       });
     }
 
     // Dot navigation
-    if (dotsContainer) {
-      dotsContainer.addEventListener('click', (e) => {
-        const dot = e.target.closest('.dot');
-        if (!dot) return;
-        
-        const index = parseInt(dot.dataset.slide, 10);
-        if (!isNaN(index)) {
-          showSlide(index);
-        }
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        showSlide(index);
+        stopAutoRotate();
+        startAutoRotate();
       });
+    });
+
+    // Pause auto-rotation on hover
+    if (track) {
+      track.addEventListener('mouseenter', stopAutoRotate);
+      track.addEventListener('mouseleave', startAutoRotate);
     }
 
     // Initialize
     showSlide(0);
-    
-    // Auto-advance slides every 5 seconds
-    let slideInterval = setInterval(nextSlide, 5000);
-    
-    // Pause auto-advance on hover
-    carousel.addEventListener('mouseenter', () => clearInterval(slideInterval));
-    carousel.addEventListener('mouseleave', () => {
-      clearInterval(slideInterval);
-      slideInterval = setInterval(nextSlide, 5000);
-    });
+    startAutoRotate();
   };
 
-  // Initialize carousel
-  initCarousel();
+  // Initialize about carousel if it exists
+  if (document.querySelector('.about-carousel')) {
+    initAboutCarousel();
+  }
+  
+  // Old carousel initialization function removed - using initAboutCarousel instead
   // Mobile menu toggle
   const menuToggle = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
