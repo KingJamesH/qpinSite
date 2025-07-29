@@ -352,6 +352,18 @@
     justify-content: center;
     gap: 0.5rem;
   }
+  
+  .sales-note {
+    text-align: center;
+    color: var(--color-gray-700) !important;
+    font-size: 0.85rem;
+    margin: 0 0 0 0 !important;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
 
   .hero-stats {
@@ -1435,6 +1447,18 @@
     color: var(--color-text-muted);
     font-size: 0.875rem;
     margin-bottom: var(--spacing-xs);
+  }
+  
+  .shipping-note {
+    margin: 0.5rem 0 0.25rem;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+  
+  .sales-note {
+    margin: 0.25rem 0 1.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
   }
 
   /* FAQ Section */
