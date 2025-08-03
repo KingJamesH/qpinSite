@@ -329,14 +329,14 @@
 
   .hero p {
     font-size: 1.25rem;
-    margin-bottom: var(--spacing-2xl);
+    margin-bottom: var(--spacing-xl);
     color: var(--color-text-secondary);
   }
 
   .hero-actions {
     display: flex;
     gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
     flex-wrap: wrap;
   }
   

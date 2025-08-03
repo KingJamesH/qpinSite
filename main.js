@@ -65,16 +65,16 @@ const initModelViewer = () => {
   
   // Load 3D model
   const mtlLoader = new THREE.MTLLoader();
-  mtlLoader.setPath('images/');
+  mtlLoader.setPath('images/pinCad/');
   
-  mtlLoader.load('centeredPin.mtl', (materials) => {
+  mtlLoader.load('revisedPin.mtl', (materials) => {
     materials.preload();
     
     const objLoader = new THREE.OBJLoader();
     objLoader.setMaterials(materials);
-    objLoader.setPath('images/');
+    objLoader.setPath('images/pinCad/');
     
-    objLoader.load('centeredPin.obj', (object) => {
+    objLoader.load('revisedPin.obj', (object) => {
       // Center the model
       const box = new THREE.Box3().setFromObject(object);
       const center = box.getCenter(new THREE.Vector3());
