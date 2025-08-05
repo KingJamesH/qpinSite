@@ -1285,7 +1285,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #525252;
+    background: var(--color-gray-800);
     border-radius: 20px;
     padding: var(--spacing-2xl);
     height: 500px; /* Fixed height for the 3D model */
